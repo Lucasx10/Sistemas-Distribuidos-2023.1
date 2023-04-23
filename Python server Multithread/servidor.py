@@ -1,7 +1,7 @@
-import threading
+import threading                    
 import socket
-import psutil
-import matplotlib.pyplot as plt
+import psutil                       #pip install psutil
+import matplotlib.pyplot as plt     #pip install matplotlib
 
 HOST = ''
 PORT = 5000
@@ -31,7 +31,7 @@ def messagesTreatment(client):
         try:
             data = client.recv(1024)  # Recebe a mensagem do cliente
             print("Requisições: ",len(clients))
-            print(f"Tamanho msg:{len(data)} bytes")
+            print(f"Tamanho msg: {len(data)} bytes")
             if not data:
                 deleteClient(client)
                 break
