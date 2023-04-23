@@ -1,6 +1,5 @@
 import threading
 import socket
-import time
 import psutil
 import matplotlib.pyplot as plt
 
@@ -30,35 +29,28 @@ def main():
 def messagesTreatment(client):
     while True:
         try:
-            # Mensagens de 1 byte, 512 bytes, 1KB, 10KB e 100KB
-            sizes = [1, 512, 1024, 10240, 102400]
+            data = client.recv(1024)  # Recebe a mensagem do cliente
+            print("Requisições: ",len(clients))
+            print(f"Tamanho msg:{len(data)} bytes")
+            if not data:
+                deleteClient(client)
+                break
+            msg = data.decode('utf-8')
+            msg_reversed = msg[::-1]  # Reverte a mensagem
+            broadcast(msg_reversed, client)  # Envia a mensagem para todos os clientes
 
-            for size in sizes:
-                msg = b'a' * size
-                start_time = time.time()
-                msg_reversed = msg[::-1]  # Reverte a mensagem
-                client.send(msg)  # Ecoa a mensagem de volta para o cliente
-                broadcast(msg_reversed, client)  # Envia a mensagem revertida para outros clientes
-                end_time = time.time()
 
-                print(f"Tamanho da mensagem: {size} bytes, "
-                      f"Tempo de resposta: {end_time - start_time:.4f} segundos")
-
-            # Adiciona um delay de 1 segundo entre cada conjunto de mensagens
-            time.sleep(1)
         except:
             deleteClient(client)
             break
-
 
 def broadcast(msg, client):
     for clientItem in clients:
         if clientItem != client:
             try:
-                clientItem.send(msg)
+                clientItem.send(msg.encode('utf-8'))
             except:
                 deleteClient(clientItem)
-
 
 def deleteClient(client):
     clients.remove(client)
@@ -108,7 +100,7 @@ def plot_cpu_memory_network():
         plt.pause(1)
 
 if __name__ == '__main__':
-    # Inicia o servidor em uma thread separada
+    # Inicia o servidor
     server_thread = threading.Thread(target=main)
     server_thread.start()
 
