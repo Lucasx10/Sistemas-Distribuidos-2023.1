@@ -25,12 +25,12 @@ def main():
 
         thread = threading.Thread(target=messagesTreatment, args=[client])
         thread.start()
+        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 3}")
 
 def messagesTreatment(client):
     while True:
         try:
             data = client.recv(1024)  # Recebe a mensagem do cliente
-            print("Requisições: ",len(clients))
             print(f"Tamanho msg: {len(data)} bytes")
             if not data:
                 deleteClient(client)
@@ -38,7 +38,6 @@ def messagesTreatment(client):
             msg = data.decode('utf-8')
             msg_reversed = msg[::-1]  # Reverte a mensagem
             broadcast(msg_reversed, client)  # Envia a mensagem para todos os clientes
-
 
         except:
             deleteClient(client)

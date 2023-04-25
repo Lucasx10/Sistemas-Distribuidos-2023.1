@@ -1,8 +1,12 @@
 import threading
 import socket
+import random
 
 HOST = 'localhost'
 PORT = 5000
+
+# Tamanhos das mensagens em bytes
+tamanhos = [1, 512, 1024]
 
 def main():
 
@@ -38,10 +42,12 @@ def receiveMessages(client):
 def sendMessages(client, username):
     while True:
         try:
-            msg = input('\n')
+            tamanho = random.choice(tamanhos)
+            msg = b'A' * tamanho  # cria uma mensagem com o caracter 'A' repetido n vezes
             client.send(f'<{username}> {msg}'.encode('utf-8'))
+            if msg == "quit":
+                return False
         except:
             return
-
 
 main()
