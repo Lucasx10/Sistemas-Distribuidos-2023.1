@@ -1,5 +1,6 @@
-import threading
 import socket
+import threading
+import base64
 
 HOST = ''
 PORT = 5000
@@ -7,7 +8,6 @@ PORT = 5000
 clients = []
 
 def main():
-
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
@@ -29,21 +29,25 @@ def messagesTreatment(client):
     while True:
         try:
             msg = client.recv(2048)
-            broadcast(msg, client)
-            print(msg)
+            if not msg:
+                deleteClient(client)
+                break
+            decoded_message = client.getpeername()[0] + ': ' + base64.b64decode(msg).decode('ascii')
+            encoded_message = base64.b64encode(decoded_message.encode('ascii'))
+            print(encoded_message)
+            print(decoded_message)
+            broadcast(encoded_message, client)
         except:
             deleteClient(client)
             break
 
-
-def broadcast(msg, client):
+def broadcast(msg, sender_client):
     for clientItem in clients:
-        if clientItem != client:
+        if clientItem != sender_client:
             try:
                 clientItem.send(msg)
             except:
                 deleteClient(clientItem)
-
 
 def deleteClient(client):
     clients.remove(client)
