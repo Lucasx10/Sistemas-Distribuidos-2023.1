@@ -1,4 +1,4 @@
-# Middleware com RabbitMQ
+# Atividade 2: Middleware com RabbitMQ
 
 ## Atividade: Simulação de uma aplicação de IoT para detecção de incêndio
 
