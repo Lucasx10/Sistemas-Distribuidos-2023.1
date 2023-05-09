@@ -1,4 +1,4 @@
-# Atividade: Criando uma aplicação de controle remoto com gRPC
+# Atividade 4: Criando uma aplicação de controle remoto com gRPC
 
 ### Objetivo
 O objetivo é permitir que o cliente envie comandos em formato de string para o servidor, que irá executar esses comandos em uma máquina Linux e retornar o resultado para o cliente.
