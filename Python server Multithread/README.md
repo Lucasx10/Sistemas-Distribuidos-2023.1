@@ -1,6 +1,5 @@
-# Python server Multithread
+# Atividade 3: Python server Multithread
 
-### ATIVIDADE DA UNIDADE II
 #### 1. Descrição da Atividade
 Deverá ser desenvolvido uma aplicação cliente servidor utilizando comunicação com sockets de um serviço echo reply reverse. Exemplo: ao enviar a string “Hello World!!!” ao servidor a mensagem “!!!dlroW olleH” deve ser respondida ao cliente.
 
